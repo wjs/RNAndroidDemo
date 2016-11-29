@@ -18,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <activity
             android:name=".HelloworldActivity"
             android:label="@string/app_name"
@@ -27,7 +28,10 @@
             android:name=".CNode"
             android:label="@string/app_name"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
-        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <activity
+            android:name=".CNodeDetail"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
     </application>
 
 </manifest>

@@ -5,8 +5,10 @@ import {
   View,
   Image,
   ListView,
-  ActivityIndicator
+  RefreshControl,
+  TouchableOpacity
 } from 'react-native'
+import { NativeModules } from 'react-native'
 
 class CNode extends React.Component {
   constructor(props) {
@@ -14,46 +16,82 @@ class CNode extends React.Component {
 
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
     this.state = {
-      loading: false,
+      refreshing: false,
+      page: 1,
+      data: [],
       dataSource: ds.cloneWithRows([]),
     }
   }
 
   componentDidMount() {
-    this.getList()
+    this.onRefresh()
+  }
+
+  onRefresh() {
+    this.setState({
+      refreshing: true,
+      page: 1
+    }, () => {
+      this.getList()
+    })
+  }
+  
+  onLoadMore() {
+    this.setState({
+      refreshing: true,
+      page: this.state.page + 1
+    }, () => {
+      this.getList()
+    })
   }
 
   getList() {
-    this.setState({
-      loading: true
-    })
-    fetch('https://cnodejs.org/api/v1/topics')
+    fetch('https://cnodejs.org/api/v1/topics?page=' + this.state.page)
     .then(res => res.json())
     .then(res => {
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
+      let tmpData
+      if (this.state.page > 1) {
+        tmpData = this.state.data.concat(res.data)
+      } else {
+        tmpData = res.data
+      }
       this.setState({
-        loading: false,
-        dataSource: ds.cloneWithRows(res.data)
+        refreshing: false,
+        data: tmpData,
+        dataSource: ds.cloneWithRows(tmpData)
       })
     })
+  }
+
+  goDetail(itemId) {
+    NativeModules.CustomUIManager.openView('CNodeDetail', itemId)
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.hello}>Node.js 中文社区</Text>
-        {this.state.loading ? <ActivityIndicator /> : null}
+        <Text style={styles.bigTitle}>Node.js 中文社区</Text>
         <ListView
           dataSource={this.state.dataSource}
           enableEmptySections={true}
           renderRow={(rowData) => {
             return (
-              <View key={rowData.id} style={styles.card}>
-                <Image style={styles.avatar} source={{ uri: rowData.author.avatar_url }} />
-                <Text style={styles.title}>{rowData.title}</Text>
-              </View>
+              <TouchableOpacity key={rowData.id} onPress={() => this.goDetail(rowData.id)}>
+                <View style={styles.card}>
+                  <Image style={styles.avatar} source={{ uri: rowData.author.avatar_url }} />
+                  <Text style={styles.title}>{rowData.title}</Text>
+                </View>
+              </TouchableOpacity>
             )
           }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefresh()}
+            />
+          }
+          onEndReached={() => this.onLoadMore()}
         />
       </View>
     )
@@ -64,7 +102,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  hello: {
+  bigTitle: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,

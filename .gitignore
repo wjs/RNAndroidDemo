@@ -11,3 +11,6 @@
 .vscode
 npm-debug.log
 node_modules
+app/app-release.apk
+app/my-release-key.jks
+app/src/main/assets

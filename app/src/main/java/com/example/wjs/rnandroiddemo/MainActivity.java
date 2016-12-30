@@ -23,8 +23,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openCNodePage(View view) {
-        Intent intent = new Intent(this, CNode.class);
+    public void openCNodeWebView(View view) {
+
+    }
+
+    public void openCNodeRN(View view) {
+        Intent intent = new Intent(this, CNodeRN.class);
         startActivity(intent);
     }
 }

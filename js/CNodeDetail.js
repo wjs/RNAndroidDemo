@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 
-class CNodeDetail extends React.Component {
+class CNodeDetail extends Component {
   constructor(props) {
     super(props)
 
@@ -20,7 +20,7 @@ class CNodeDetail extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.initialProps
+    const id = this.props.id
     if (id) {
       this.getDetail(id)
     }
@@ -73,6 +73,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: '#eee'
   },
   card: {
     flex: 1, 

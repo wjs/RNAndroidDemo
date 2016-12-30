@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import { NativeModules } from 'react-native'
 
-class CNode extends React.Component {
+class CNode extends Component {
   constructor(props) {
     super(props)
 
@@ -65,13 +65,13 @@ class CNode extends React.Component {
   }
 
   goDetail(itemId) {
-    NativeModules.CustomUIManager.openView('CNodeDetail', itemId)
+    this.props.navigator.push({ key: 'cnode_detail', id: itemId })
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.bigTitle}>Node.js 中文社区</Text>
+        <Text style={styles.bigTitle}>Node.js 中文社区({this.state.data.length}条)</Text>
         <ListView
           dataSource={this.state.dataSource}
           enableEmptySections={true}

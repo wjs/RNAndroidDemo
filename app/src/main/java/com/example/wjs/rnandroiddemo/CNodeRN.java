@@ -2,10 +2,10 @@ package com.example.wjs.rnandroiddemo;
 
 import com.facebook.react.ReactActivity;
 
-public class CNode extends ReactActivity {
+public class CNodeRN extends ReactActivity {
 
     @Override
     protected String getMainComponentName() {
-        return "CNode";
+        return "CNodeRN";
     }
 }

@@ -24,12 +24,9 @@
             android:label="@string/app_name"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
         <activity android:name=".DemoTwo" />
+        <activity android:name=".CNodeWebView" />
         <activity
-            android:name=".CNode"
-            android:label="@string/app_name"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".CNodeDetail"
+            android:name=".CNodeRN"
             android:label="@string/app_name"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
     </application>
